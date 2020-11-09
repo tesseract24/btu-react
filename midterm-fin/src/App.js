@@ -2,10 +2,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Home from "./components/Home/Home";
-import Login from "./components/Login/Login";
+import Login, {value1} from "./components/Login/Login";
 import Nav from "./components/presentation/Nav/Nav";
 import NotFound from "./components/presentation/NotFound/NotFound";
 import PrivateRoute from "./components/presentation/PrivateRoute/PrivateRoute";
+import { LoginInputs } from "./utils/inputs";
+
+import { BASE_API_URL } from "./constants";
+import axios from "axios";
 
 import LocaleContext from "./context/LocaleContext";
 import AuthContext, {
@@ -23,11 +27,31 @@ function App() {
   const [locale, setLocale] = useState(defaultLocaleValue);
   const [authed, setAuthed] = useState(false);
 
+
+
+
+  const [users, setUsers] = useState({ hits: [] });
   useEffect(() => {
-    if (getUserSessionToken()) {
-      setAuthed(true);
+    const fetchData = async () => {
+      const { data } = await axios(
+        BASE_API_URL
+      );
+      setUsers({ hits: data });
+    };
+    fetchData();
+  }, [setUsers]);
+
+  const name = users.hits.map((item2) => (item2 = item2.name));
+
+
+
+  useEffect(() => {
+    for (let index = 0; index < name.length; index++) {
+      if (name[index] === value1){
+        setAuthed(true);
+      }
     }
-  }, []);
+  });
 
   const initialLocaleContext = {
     locale,
@@ -50,6 +74,8 @@ function App() {
       }, 2000);
     },
   };
+
+
 
   return (
     <LocaleContext.Provider value={initialLocaleContext}>

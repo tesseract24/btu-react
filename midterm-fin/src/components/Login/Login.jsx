@@ -3,7 +3,6 @@ import { Link, useHistory,} from "react-router-dom";
 import Form from "../presentation/Form/Form";
 import Input from "../presentation/Input/Input";
 import PropTypes from "prop-types";
-import CheckUsernames from './CheckUsernames'
 import LocaleContext from "../../context/LocaleContext";
 import AuthContext from "../../context/AuthContext";
 
@@ -90,3 +89,4 @@ Login.propTypes = {
 };
 
 export default Login;
+export const value1 = [LoginInputs.email.id].value
